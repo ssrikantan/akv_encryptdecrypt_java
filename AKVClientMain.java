@@ -23,8 +23,10 @@ import com.microsoft.azure.keyvault.webkey.JsonWebKeyEncryptionAlgorithm;
 
 public class AKVClientMain {
 
-	private static String clientId = "b8baa7a7-9218-4ca8-b397-35f0ed19111f";
-	private static String clientKey = "vG6UAEzRhp6WGKRloBt78uL/YIPTTd+abQsgRJ3tdUU=";
+	// This App ID of the Application registered in Azure AD - reqd by this program to use Azure Key Vault APIs
+	private static String clientId = "{Replace this with the App ID of your application in Azure AD}";
+	//The secret generated corresponding to the App ID above, in Azure AD
+	private static String clientKey = "{Replace this with the secret corresponding to the above App ID in Azure AD}";
 	
 	public static void main(String[] args){
 		
@@ -33,8 +35,8 @@ public class AKVClientMain {
 		KeyVaultCredentialsImpl credentials = new KeyVaultCredentialsImpl();
 		KeyVaultClient kv = new KeyVaultClient(credentials);
 
-		String vaultUri = "https://akvsample.vault.azure.net";
-		String keyUri = vaultUri + "/keys/prohsmcert/";
+		String vaultUri = "https://{Replace this with your Azure Key vault Name}.vault.azure.net";
+		String keyUri = vaultUri + "/keys/{Replace this with your Key Name}/";
 		
 		// encrypt data locally using the Certificate on the Machine
 		byte[] cipherText= EncryptDataLocally("this is a test data");
@@ -59,13 +61,7 @@ public class AKVClientMain {
 		System.out.println("Finished!");
 	}
 	
-	private static void WriteEncryptedDataToFile(byte[] cipherText)throws IOException
-	{
-		//save the encrypted data locally to a file to be read from another program
-		OutputStream outputst = new FileOutputStream("C:\\Samples\\encrtdata");
-		outputst.write(cipherText);
-		outputst.close();
-	}
+	
 	
 	private static byte[] EncryptDataLocally(String message)throws Exception
 	{
